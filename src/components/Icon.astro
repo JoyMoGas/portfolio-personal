@@ -1,0 +1,31 @@
+---
+import { icon } from "@fortawesome/fontawesome-svg-core";
+import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+
+export interface Props {
+  iconDef: IconDefinition;
+  size?: number;
+  color?: string;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const {
+  iconDef,
+  size = 20,
+  color = "currentColor",
+  class: className = "",
+  ...rest
+} = Astro.props;
+
+const rendered = icon(iconDef, {
+  styles: { color, width: `${size}px`, height: `${size}px` },
+});
+const svgHtml = rendered.html[0];
+---
+
+<span
+  class:list={["inline-flex items-center justify-center", className]}
+  set:html={svgHtml}
+  {...rest}
+/>

@@ -1,0 +1,15 @@
+---
+export interface Props {
+  title: string;
+  elements: string[];
+}
+
+const { title, elements } = Astro.props;
+---
+
+<article class="bg-white w-full h-auto mb-9 py-7">
+  <h3 class="text-center font-jakarta font-bold text-5 mb-6.75">{title}</h3>
+  <ul class="flex flex-col pl-14.25 text-left gap-5.5 text-4 text-text-secondary">
+    {elements.map((item) => <li>{item}</li>)}
+  </ul>
+</article>

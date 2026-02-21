@@ -1,0 +1,55 @@
+---
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+import Icon from "./Icon.astro";
+import { faGithub, faInstagram, faLinkedin } from "../lib/icons";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const footerTitle = t("footer.title");
+const footerDesc = t("footer.description");
+const footerBottom = t("footer.bottom");
+
+const socials = [
+  { icon: faGithub, href: "https://github.com/JoyMoGas", label: "GitHub" },
+  {
+    icon: faLinkedin,
+    href: "https://www.linkedin.com/in/jos%C3%A9-monta%C3%B1o-gast%C3%A9lum-527426270/",
+    label: "LinkedIn",
+  },
+  { icon: faInstagram, href: "https://www.instagram.com/josemogas.5", label: "Instagram" },
+];
+---
+
+<footer
+  class="bg-primary-blur backdrop-blur-xl w-full bottom-0 border-t border-text-primary/10 pt-6 px-6.5"
+>
+  <article class="flex items-center justify-between mb-6">
+    <div>
+      <h2 class="font-fraunces text-4-5 font-semibold text-text-primary">
+        {footerTitle}
+      </h2>
+      <p class="font-jetbrains text-3 font-medium">{footerDesc}</p>
+    </div>
+
+    <div class="flex items-center gap-5">
+      {
+        socials.map(({ icon, href, label }) => (
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={label}
+            class="text-text-primary opacity-70 hover:opacity-100 transition-opacity duration-200"
+          >
+            <Icon iconDef={icon} size={32} />
+          </a>
+        ))
+      }
+    </div>
+  </article>
+
+  <div class="text-center font-jakarta text-2-75 text-text-primary pb- pb-3-25">
+    {footerBottom}
+  </div>
+</footer>

@@ -1,0 +1,36 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
+
+@import "tailwindcss";
+
+@theme {
+  /* Fuentes */
+  --font-fraunces: "Fraunces", serif;
+  --font-jakarta: "Plus Jakarta Sans", sans-serif;
+  --font-jetbrains: "JetBrains Mono", monospace;
+
+  /* Colores Principales */
+  --color-primary: #f4f1ea;
+  --color-primary-blur: #f4f1ea80;
+  --color-secondary: #ffffff;
+
+  /* Tamaños de Texto */
+  --text-8: 32px;
+  --text-6: 24px;
+  --text-5: 20px;
+  --text-4-5: 18px;
+  --text-4: 16px;
+  --text-3-25: 13px;
+  --text-3: 12px;
+  --text-2-75: 11px;
+
+  /* Colores de Texto */
+  --color-text-primary: #3d3d3d;
+  --color-text-secondary: #626262;
+  --color-text-accent: #6b705c;
+
+  /* Colores de Botones */
+  --color-available: #6b705c26;
+  --color-available-border: #6b705c;
+  --color-buttons: #3d3d3d;
+  --color-text-buttons: #f4f1ea;
+}
