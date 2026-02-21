@@ -1,7 +1,7 @@
 ---
 title: "App del Clima"
-description: "Una hermosa y responsiva aplicación del clima construida con React y TypeScript"
-image: "/projects/weather-app.jpg"
+description: "Una hermosa y responsiva aplicación del clima con pronóstico de 5 días y datos en tiempo real, construida con React y TypeScript."
+image: "/projects/image.png"
 technologies: ["React", "TypeScript", "Tailwind CSS", "OpenWeather API"]
 github: "https://github.com/yourusername/weather-app"
 demo: "https://weather-app-demo.com"

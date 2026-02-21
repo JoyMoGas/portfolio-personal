@@ -1,7 +1,7 @@
 ---
 title: "Weather App"
-description: "A beautiful and responsive weather application built with React and TypeScript"
-image: "/projects/weather-app.jpg"
+description: "A beautiful and responsive weather application built with React and TypeScript, with 5-day forecast and real-time data."
+image: "/projects/image.png"
 technologies: ["React", "TypeScript", "Tailwind CSS", "OpenWeather API"]
 github: "https://github.com/yourusername/weather-app"
 demo: "https://weather-app-demo.com"

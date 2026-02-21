@@ -1,10 +1,9 @@
 ---
 title: "E-commerce Platform"
-description: "Full-stack online shopping platform with payment integration"
-image: "/projects/ecommerce.jpg"
+description: "Full-stack online shopping platform with payment integration, admin dashboard and user authentication."
+image: "/projects/image.png"
 technologies: ["Next.js", "Node.js", "MongoDB", "Stripe", "Redux"]
 github: "https://github.com/yourusername/ecommerce"
-demo: "https://ecommerce-demo.com"
 featured: true
 order: 2
 lang: "en"
