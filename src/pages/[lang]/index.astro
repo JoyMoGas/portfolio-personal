@@ -194,21 +194,40 @@ const showSuccess = Astro.url.searchParams.get("success") === "true";
 
     {
       showSuccess && (
-        <div class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-text-accent text-text-buttons px-6 py-4 rounded-2xl shadow-2xl z-100 font-jakarta font-bold animate-bounce flex items-center gap-3 border border-white/20 backdrop-blur-md">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="3"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <polyline points="20 6 9 17 4 12" />
-          </svg>
-          {t("contact.success")}
+        <div
+          id="success-notification"
+          class="fixed bottom-10 left-10 right-10 md:left-auto md:right-10 md:w-96 bg-primary border-2 border-text-primary p-1 shadow-[8px_8px_0px_0px_rgba(61,61,61,1)] z-100 animate-in fade-in slide-in-from-bottom-5 duration-500"
+        >
+          <div class="border border-text-primary p-4 bg-primary flex flex-col gap-2">
+            <div class="flex justify-between items-start border-b border-text-primary pb-2 mb-2">
+              <span class="font-jakarta font-bold text-[10px] uppercase tracking-tighter text-text-accent">
+                Extra! Extra!
+              </span>
+              <span class="font-jetbrains text-[9px] uppercase">
+                {new Date().toLocaleDateString()}
+              </span>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="bg-text-primary text-primary p-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </div>
+              <p class="font-fraunces font-bold text-lg leading-tight text-text-primary">
+                {t("contact.success")}
+              </p>
+            </div>
+          </div>
         </div>
       )
     }
@@ -235,3 +254,21 @@ const showSuccess = Astro.url.searchParams.get("success") === "true";
     }
   }
 </style>
+
+<script>
+  // Hide success notification after 5 seconds
+  const notification = document.getElementById("success-notification");
+  if (notification) {
+    setTimeout(() => {
+      notification.style.opacity = "0";
+      notification.style.transform = "translateY(20px)";
+      notification.style.transition = "all 0.5s ease-out";
+      setTimeout(() => notification.remove(), 500);
+
+      // Clean up URL without refreshing
+      const url = new URL(window.location.href);
+      url.searchParams.delete("success");
+      window.history.replaceState({}, document.title, url.pathname);
+    }, 5000);
+  }
+</script>
