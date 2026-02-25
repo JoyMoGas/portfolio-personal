@@ -1,11 +1,12 @@
 ---
+import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import profileImg from "../../assets/profile.webp";
 
 import { getLangFromUrl, useTranslations } from "../../i18n/utils";
 import Navbar from "../../components/Navbar.astro";
 import { languages } from "../../i18n/ui";
-import Projects from "./projects.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
 import SkillsCard from "../../components/SkillsCard.astro";
 import SkillInfo from "../../components/SkillInfo.astro";
 import Footer from "../../components/Footer.astro";
@@ -23,120 +24,189 @@ const titleString = t("home.title");
 const availbaleButton = t("home.available");
 const introString = t("home.intro");
 
-const projectsString = t("projects.title")
+const projectsString = t("projects.title");
 
-const arsenalTtitle = t("arsenal.title")
-const arsenalFront = t("arsenal.frontend")
-const arsenalBack = t("arsenal.backend")
-const arsenalTools = t("arsenal.tools")
+const arsenalTtitle = t("arsenal.title");
+const arsenalFront = t("arsenal.frontend");
+const arsenalBack = t("arsenal.backend");
+const arsenalTools = t("arsenal.tools");
 
-const aboutTitle = t("about.title")
-const aboutDescription = t("about.description")
+const aboutTitle = t("about.title");
+const aboutDescription = t("about.description");
 
-const softwareTitle = t("about.softwareTitle")
-const softwareContent = t("about.softwareContent")
+const softwareTitle = t("about.softwareTitle");
+const softwareContent = t("about.softwareContent");
 
-const systemsTitle = t("about.systemsTitle")
-const systemsContent = t("about.systemsContent")
+const systemsTitle = t("about.systemsTitle");
+const systemsContent = t("about.systemsContent");
 
-const securityTitle = t("about.securityTitle")
-const securityContent = t("about.securityContent")
+const securityTitle = t("about.securityTitle");
+const securityContent = t("about.securityContent");
 
-const optimizationTitle = t("about.optimizationTitle")
-const optimizationContent = t("about.optimizationContent")
+const optimizationTitle = t("about.optimizationTitle");
+const optimizationContent = t("about.optimizationContent");
 
+// Get all projects for the current language, sorted by order
+const allProjects = await getCollection("projects", ({ data }) => {
+  return data.lang === lang;
+});
+const sortedProjects = allProjects.sort((a, b) => a.data.order - b.data.order);
 ---
 
 <Layout>
   <Navbar />
-  <main class="mt-18 mx-10">
-    <section>
+  <main class="mt-18 mx-10 max-w-7xl lg:mx-auto lg:px-10">
+    <section class="mb-20 lg:mb-32">
       <div
-        class="flex flex-col items-center align-middle content-center text-center"
+        class="flex flex-col lg:flex-row items-center lg:justify-between lg:text-left text-center gap-10"
       >
-        <h1
-          class="font-fraunces font-bold text-text-primary text-8"
-          set:html={titleString}
-        />
-        
-        <article class="flex flex-col items-center">
-          <img
-            src={profileImg.src}
-            alt="Imagen del programador"
-            class="w-80 rounded-full my-9.5"
+        <div class="lg:w-1/2 flex flex-col items-center lg:items-start">
+          <h1
+            class="font-fraunces font-bold text-text-primary text-8 lg:text-14 mb-6"
+            set:html={titleString}
           />
 
-          <div
-            class="bg-available border border-available-border rounded-full w-fit px-4 py-1.5"
-          >
+          <div class="hidden lg:block mb-8">
             <p
-              class="font-jakarta text-text-accent font-semibold text-3-25"
-              set:html={availbaleButton}
+              class="text-text-secondary text-5 leading-relaxed"
+              set:html={introString}
             />
           </div>
 
-          <div class="my-9.5">
-            <p class="text-left text-4" set:html={introString} />
+        </div>
+
+        <article class="flex flex-col items-center lg:w-1/2">
+          <div class="relative">
+            <img
+              src={profileImg.src}
+              alt="Imagen del programador"
+              class="w-80 lg:w-100 rounded-full mb-6"
+            />
+            <div
+              class="lg:absolute lg:-bottom-4 lg:right-0 bg-available border border-available-border rounded-full w-fit px-6 py-2 shadow-sm mx-auto lg:mx-0"
+            >
+              <p
+                class="font-jakarta text-text-accent font-bold text-xs uppercase tracking-widest whitespace-nowrap"
+                set:html={availbaleButton}
+              />
+            </div>
+          </div>
+
+          <div class="mt-12 lg:hidden px-4">
+            <p
+              class="text-left text-4 leading-relaxed"
+              set:html={introString}
+            />
           </div>
         </article>
       </div>
     </section>
 
-    <section class="flex flex-col items-center align-middle content-center text-center">
-      <h2 
-        class="font-fraunces text-text-primary text-6 font-bold mb-9.5"
+    <section id="projects" class="flex flex-col items-center mb-20 lg:mb-32">
+      <h2
+        class="font-fraunces text-text-primary text-6 lg:text-9 font-bold mb-12 uppercase tracking-wide"
         set:html={projectsString}
       />
 
-      <Projects />
+      <div class="projects-grid w-full">
+        {
+          sortedProjects.map((project) => (
+            <ProjectCard project={project} lang={lang} />
+          ))
+        }
+      </div>
     </section>
 
-    <section class="flex flex-col items-center align-middle content-center text-center">
-      <h2 class="font-fraunces text-text-primary text-6 font-bold mb-9.5">
+    <section
+      id="technologies"
+      class="flex flex-col items-center mb-20 lg:mb-32"
+    >
+      <h2
+        class="font-fraunces text-text-primary text-6 lg:text-9 font-bold mb-12 uppercase tracking-wide"
+      >
         {arsenalTtitle}
       </h2>
 
-      <SkillsCard 
-        title={arsenalFront}
-        elements={["React", "React Native", "TypeScript", "JavaScript", "Tailwind CSS", "Astro"]}
-      />
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
+        <SkillsCard
+          title={arsenalFront}
+          elements={[
+            "React",
+            "React Native",
+            "TypeScript",
+            "JavaScript",
+            "Tailwind CSS",
+            "Astro",
+          ]}
+        />
 
-      <SkillsCard 
-        title={arsenalBack}
-        elements={["Python", "Flask", "DJango", "JWT", "PostgreSQL", "Supabase"]}
-      />
+        <SkillsCard
+          title={arsenalBack}
+          elements={[
+            "Python",
+            "Flask",
+            "DJango",
+            "JWT",
+            "PostgreSQL",
+            "Supabase",
+          ]}
+        />
 
-      <SkillsCard 
-        title={arsenalTools}
-        elements={["Vercel", "Git / Github", "Postman", "Web Scrapping", "VS Code", "Figma"]}
-      />
-    </section>
-
-    <section class="flex flex-col items-center align-middle content-center text-center">
-      <h2 class="font-fraunces text-text-primary text-6 font-bold mb-9.5">
-        {aboutTitle}
-      </h2>
-
-      <div>
-        <p
-          class="text-left text-4 text-text-secondary mb-9.5"
-          set:html={aboutDescription}
+        <SkillsCard
+          title={arsenalTools}
+          elements={[
+            "Vercel",
+            "Git / Github",
+            "Postman",
+            "Web Scrapping",
+            "VS Code",
+            "Figma",
+          ]}
         />
       </div>
     </section>
 
-    <section class="grid grid-cols-2 gap-8.75 mb-15">
-      <SkillInfo title={softwareTitle} content={softwareContent} />
+    <section id="about" class="mb-20 lg:mb-32">
+      <h2
+        class="font-fraunces text-text-primary text-6 lg:text-9 font-bold mb-12 uppercase tracking-wide text-center"
+      >
+        {aboutTitle}
+      </h2>
 
-      <SkillInfo title={systemsTitle} content={systemsContent} />
+      <div class="flex flex-col lg:flex-row gap-12 lg:gap-20">
+        <div class="lg:w-1/3">
+          <p
+            class="text-left text-4 text-text-secondary leading-relaxed"
+            set:html={aboutDescription}
+          />
+        </div>
 
-      <SkillInfo title={securityTitle} content={securityContent} />
-
-      <SkillInfo title={optimizationTitle} content={optimizationContent} />
+        <div class="lg:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-8">
+          <SkillInfo title={softwareTitle} content={softwareContent} />
+          <SkillInfo title={systemsTitle} content={systemsContent} />
+          <SkillInfo title={securityTitle} content={securityContent} />
+          <SkillInfo title={optimizationTitle} content={optimizationContent} />
+        </div>
+      </div>
     </section>
-
-    
   </main>
 
   <Footer />
 </Layout>
+
+<style>
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 900px) {
+    .projects-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 40px;
+    }
+  }
+</style>

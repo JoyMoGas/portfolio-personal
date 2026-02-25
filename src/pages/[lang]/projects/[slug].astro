@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "../../../layouts/Layout.astro";
+import Navbar from "../../../components/Navbar.astro";
 import { getLangFromUrl, useTranslations } from "../../../i18n/utils";
 
 const { slug } = Astro.params;
@@ -19,45 +20,79 @@ if (!project) {
 }
 
 const { Content } = await project.render();
+const {
+  title,
+  description,
+  tagline,
+  image,
+  technologies,
+  github,
+  demo,
+  sections,
+} = project.data;
+
+// Parse a body string: split on newlines, render lists or paragraphs
+function parseBody(body: string): string {
+  // YAML double-quoted strings parse \n as real newlines; split on both
+  const lines = body
+    .split(/\n|\\n/)
+    .map((l) => l.trim())
+    .filter(Boolean);
+  const isListLine = (l: string) =>
+    l.startsWith("- ") || l.startsWith("\u2013 ");
+  const allList = lines.every(isListLine);
+  if (allList) {
+    const items = lines
+      .map((l) => `<li>${l.replace(/^[-\u2013]\s*/, "")}</li>`)
+      .join("");
+    return `<ul>${items}</ul>`;
+  }
+  return lines
+    .map((l) =>
+      isListLine(l)
+        ? `<li>${l.replace(/^[-\u2013]\s*/, "")}</li>`
+        : `<p>${l}</p>`,
+    )
+    .join("");
+}
 ---
 
-<Layout title={project.data.title}>
-  <main class="container mx-auto px-4 py-12 max-w-4xl">
+<Layout title={title}>
+  <Navbar />
+  <main class="container">
     <!-- Back button -->
-    <a href={`/${lang}/projects`} class="back-link">
+    <a href={`/${lang}#projects`} class="back-link">
       ← {t("nav.projects")}
     </a>
 
     <!-- Project header -->
     <header class="project-header">
-      <h1 class="project-title">{project.data.title}</h1>
-      <p class="project-desc">{project.data.description}</p>
+      <div class="header-meta">
+        {tagline && <p class="project-tagline">{tagline}</p>}
+        <h1 class="project-title">{title}</h1>
+        <p class="project-desc">{description}</p>
+      </div>
 
+      <!-- Hero image -->
       {
-        project.data.image && (
-          <img
-            src={project.data.image}
-            alt={project.data.title}
-            class="project-image"
-          />
+        image && (
+          <div class="hero-image-wrapper">
+            <img src={image} alt={title} class="hero-image" />
+          </div>
         )
       }
 
       <!-- Technologies -->
       <div class="tech-tags">
-        {
-          project.data.technologies.map((tech) => (
-            <span class="tech-tag">{tech}</span>
-          ))
-        }
+        {technologies.map((tech) => <span class="tech-tag">{tech}</span>)}
       </div>
 
       <!-- Links -->
       <div class="project-links">
         {
-          project.data.github && (
+          github && (
             <a
-              href={project.data.github}
+              href={github}
               target="_blank"
               rel="noopener noreferrer"
               class="link-btn link-github"
@@ -76,9 +111,9 @@ const { Content } = await project.render();
           )
         }
         {
-          project.data.demo && (
+          demo && (
             <a
-              href={project.data.demo}
+              href={demo}
               target="_blank"
               rel="noopener noreferrer"
               class="link-btn link-demo"
@@ -105,7 +140,86 @@ const { Content } = await project.render();
       </div>
     </header>
 
-    <!-- Project content (markdown) -->
+    <!-- Sections -->
+    {
+      sections && sections.length > 0 && (
+        <div class="sections-wrapper">
+          {sections.map((section, i) => {
+            const layout = section.layout || "image-right";
+            const isTextOnly = layout === "text-only";
+            const isImageOnly = layout === "image-only";
+            const imageLeft = layout === "image-left";
+
+            return (
+              <section
+                class={`project-section section-${layout} ${i % 2 === 0 ? "section-even" : "section-odd"}`}
+              >
+                {isTextOnly ? (
+                  <div class="section-text-only">
+                    {section.title && (
+                      <h2 class="section-title">{section.title}</h2>
+                    )}
+                    {section.body && (
+                      <div
+                        class="section-body"
+                        set:html={parseBody(section.body)}
+                      />
+                    )}
+                  </div>
+                ) : isImageOnly ? (
+                  <div class="section-image-block">
+                    {section.image && (
+                      <img
+                        src={section.image}
+                        alt={section.imageAlt || ""}
+                        class="section-img"
+                      />
+                    )}
+                    {section.imageCaption && (
+                      <p class="section-caption">{section.imageCaption}</p>
+                    )}
+                  </div>
+                ) : (
+                  <div
+                    class={`section-split ${imageLeft ? "split-image-left" : "split-image-right"}`}
+                  >
+                    <div class="section-text-block">
+                      {section.title && (
+                        <h2 class="section-title">{section.title}</h2>
+                      )}
+                      {section.body && (
+                        <div
+                          class="section-body"
+                          set:html={parseBody(section.body)}
+                        />
+                      )}
+                    </div>
+                    <div class="section-image-block">
+                      {section.image && (
+                        <figure>
+                          <img
+                            src={section.image}
+                            alt={section.imageAlt || ""}
+                            class="section-img"
+                          />
+                          {section.imageCaption && (
+                            <figcaption class="section-caption">
+                              {section.imageCaption}
+                            </figcaption>
+                          )}
+                        </figure>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </section>
+            );
+          })}
+        </div>
+      )
+    }
+
+    <!-- Fallback: raw markdown content -->
     <article class="prose-content">
       <Content />
     </article>
@@ -115,48 +229,85 @@ const { Content } = await project.render();
 <style>
   @reference "../../../styles/global.css";
 
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 120px 40px 100px;
+  }
+
+  /* ─── Back link ─── */
   .back-link {
     display: inline-block;
-    margin-bottom: 24px;
+    margin-bottom: 32px;
     font-family: var(--font-jakarta, sans-serif);
-    font-size: 14px;
+    font-size: 13px;
     color: var(--color-text-secondary, #626262);
     text-decoration: none;
     transition: color 0.2s ease;
+    letter-spacing: 0.01em;
   }
   .back-link:hover {
     color: var(--color-text-primary, #3d3d3d);
   }
 
+  /* ─── Project Header ─── */
   .project-header {
-    margin-bottom: 40px;
+    margin-bottom: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .header-meta {
+    margin-bottom: 28px;
+  }
+
+  .project-tagline {
+    font-family: var(--font-jetbrains, monospace);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-accent, #6b705c);
+    margin-bottom: 10px;
   }
 
   .project-title {
     font-family: var(--font-fraunces, serif);
-    font-size: 36px;
+    font-size: 42px;
     font-weight: 700;
     color: var(--color-text-primary, #3d3d3d);
-    margin-bottom: 12px;
-    line-height: 1.2;
+    margin-bottom: 14px;
+    line-height: 1.15;
   }
 
   .project-desc {
     font-family: var(--font-jakarta, sans-serif);
     font-size: 16px;
     color: var(--color-text-secondary, #626262);
-    margin-bottom: 24px;
-    line-height: 1.65;
+    line-height: 1.7;
+    max-width: 680px;
   }
 
-  .project-image {
+  /* ─── Hero Image ─── */
+  .hero-image-wrapper {
     width: 100%;
     aspect-ratio: 16 / 9;
-    object-fit: cover;
-    border-radius: 12px;
-    margin-bottom: 24px;
+    overflow: hidden;
+    border-radius: 16px;
+    margin-bottom: 28px;
+    border: 1.5px solid #e2ddd6;
   }
 
+  .hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ─── Tech Tags ─── */
   .tech-tags {
     display: flex;
     flex-wrap: wrap;
@@ -169,11 +320,13 @@ const { Content } = await project.render();
     border: 1.5px solid var(--color-text-primary, #3d3d3d);
     border-radius: 999px;
     font-family: var(--font-jetbrains, monospace);
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 500;
     color: var(--color-text-primary, #3d3d3d);
+    letter-spacing: 0.02em;
   }
 
+  /* ─── Links ─── */
   .project-links {
     display: flex;
     gap: 12px;
@@ -183,7 +336,7 @@ const { Content } = await project.render();
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 10px 20px;
+    padding: 10px 22px;
     border-radius: 999px;
     font-family: var(--font-jetbrains, monospace);
     font-size: 13px;
@@ -196,7 +349,7 @@ const { Content } = await project.render();
   }
 
   .link-btn:hover {
-    opacity: 0.85;
+    opacity: 0.82;
     transform: translateY(-1px);
   }
 
@@ -211,14 +364,131 @@ const { Content } = await project.render();
     border: 1.5px solid var(--color-text-primary, #3d3d3d);
   }
 
-  /* Markdown content */
-  .prose-content :global(h1) {
+  /* ─── Sections ─── */
+  .sections-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .project-section {
+    padding: 48px 0;
+    border-top: 1px solid #e2ddd6;
+  }
+
+  /* Split layout (image-left / image-right) */
+  .section-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .split-image-left {
+    direction: rtl;
+  }
+  .split-image-left > * {
+    direction: ltr;
+  }
+
+  .section-title {
     font-family: var(--font-fraunces, serif);
-    font-size: 28px;
+    font-size: 24px;
     font-weight: 700;
     color: var(--color-text-primary, #3d3d3d);
-    margin-top: 32px;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
+    line-height: 1.25;
+  }
+
+  .section-body {
+    font-family: var(--font-jakarta, sans-serif);
+    font-size: 15px;
+    line-height: 1.72;
+    color: var(--color-text-secondary, #626262);
+  }
+
+  .section-body :global(p) {
+    margin-bottom: 12px;
+  }
+
+  .section-body :global(ul) {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .section-body :global(li) {
+    padding-left: 20px;
+    position: relative;
+  }
+
+  .section-body :global(li)::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--color-text-accent, #6b705c);
+    font-weight: 700;
+    font-family: var(--font-jetbrains, monospace);
+  }
+
+  /* Image block */
+  .section-image-block figure {
+    margin: 0;
+  }
+
+  .section-img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+    border: 1.5px solid #e2ddd6;
+  }
+
+  .section-caption {
+    font-family: var(--font-jetbrains, monospace);
+    font-size: 11px;
+    color: var(--color-text-secondary, #626262);
+    margin-top: 10px;
+    letter-spacing: 0.02em;
+    text-align: center;
+  }
+
+  /* Text-only layout */
+  .section-text-only {
+    max-width: 720px;
+  }
+
+  /* Alternating even/odd background tint */
+  .section-odd {
+    background: transparent;
+  }
+
+  /* ─── Responsive ─── */
+  @media (max-width: 680px) {
+    .project-title {
+      font-size: 30px;
+    }
+
+    .section-split {
+      grid-template-columns: 1fr;
+    }
+
+    .split-image-left {
+      direction: ltr;
+    }
+
+    .section-image-block {
+      order: -1;
+    }
+  }
+
+  /* ─── Prose fallback (empty if no raw markdown body) ─── */
+  .prose-content:empty {
+    display: none;
   }
 
   .prose-content :global(h2) {
@@ -226,7 +496,7 @@ const { Content } = await project.render();
     font-size: 22px;
     font-weight: 600;
     color: var(--color-text-primary, #3d3d3d);
-    margin-top: 24px;
+    margin-top: 32px;
     margin-bottom: 12px;
   }
 
@@ -235,7 +505,7 @@ const { Content } = await project.render();
     font-size: 15px;
     line-height: 1.7;
     color: var(--color-text-secondary, #626262);
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
 
   .prose-content :global(ul) {
@@ -250,13 +520,5 @@ const { Content } = await project.render();
     line-height: 1.65;
     color: var(--color-text-secondary, #626262);
     margin-bottom: 6px;
-  }
-
-  .prose-content :global(code) {
-    background: #f0ece4;
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-family: var(--font-jetbrains, monospace);
-    font-size: 13px;
   }
 </style>

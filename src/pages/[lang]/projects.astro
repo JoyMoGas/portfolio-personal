@@ -30,4 +30,11 @@ const sortedProjects = allProjects.sort((a, b) => a.data.order - b.data.order);
     max-width: 480px;
     margin: 0 auto;
   }
+
+  @media (min-width: 900px) {
+    .projects-grid {
+      grid-template-columns: repeat(2, 1fr);
+      max-width: 960px;
+    }
+  }
 </style>
