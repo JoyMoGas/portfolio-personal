@@ -10,9 +10,15 @@ const t = useTranslations(lang);
   name="contact"
   method="POST"
   data-netlify="true"
+  data-netlify-honeypot="bot-field"
   class="flex flex-col gap-6 w-full max-w-2xl mx-auto"
 >
   <input type="hidden" name="form-name" value="contact" />
+  <p class="hidden">
+    <label
+      >Don't fill this out if you're human: <input name="bot-field" /></label
+    >
+  </p>
 
   <div class="flex flex-col gap-2">
     <label
@@ -105,7 +111,7 @@ const t = useTranslations(lang);
   </p>
 </form>
 
-<script is:inline define:vars={{ lang }}>
+<script define:vars={{ lang }}>
   const form = document.getElementById("portfolio-contact-form");
   const btn = document.getElementById("submit-btn");
   const btnText = document.getElementById("btn-text");
@@ -124,7 +130,7 @@ const t = useTranslations(lang);
       const formData = new FormData(form);
 
       try {
-        const response = await fetch("/", {
+        const response = await fetch("/forms.html", {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: new URLSearchParams(formData).toString(),
