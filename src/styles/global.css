@@ -6,7 +6,6 @@ html {
   scroll-behavior: smooth;
 }
 
-
 @theme {
   /* Fuentes */
   --font-fraunces: "Fraunces", serif;
@@ -19,11 +18,13 @@ html {
   --color-secondary: #ffffff;
 
   /* Tamaños de Texto */
+  --text-10: 40px;
   --text-8: 32px;
   --text-6: 24px;
   --text-5: 20px;
   --text-4-5: 18px;
   --text-4: 16px;
+  --text-3-5: 14px;
   --text-3-25: 13px;
   --text-3: 12px;
   --text-2-75: 11px;

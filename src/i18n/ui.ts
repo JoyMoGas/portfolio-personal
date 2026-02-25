@@ -20,7 +20,7 @@ export const ui = {
     "home.subtitle": "Full Stack Developer",
     "home.cta": "View Projects",
     "home.available": "AVAILABLE TO WORK",
-    "home.intro": 
+    "home.intro":
       "I'm <span class='font-bold text-text-accent'>José Montaño</span>, an engineer focused on bridging the gap between backend power and frontend interactivity. I'm an expert in designing robust systems with <span class='font-bold text-text-accent'>Python</span> and bringing them to life using <span class='font-bold text-text-accent'>React</span> architectures, delivering high-performance software for any device.",
 
     "projects.title": "SELECTED WORK",
@@ -38,25 +38,35 @@ export const ui = {
     "about.title": "ABOUT ME",
     "about.skills": "Skills",
     "about.experience": "Experience",
-    "about.description": "Software Engineer focused on the design and construction of high-performance digital architectures. My methodology is based on integrating robust backend services with intuitive and dynamic user interfaces. With a mindset geared towards solving complex technical problems, I develop scalable solutions that transform business requirements into functional systems, always maintaining a standard of technical excellence and security.",
+    "about.description":
+      "Software Engineer focused on the design and construction of high-performance digital architectures. My methodology is based on integrating robust backend services with intuitive and dynamic user interfaces. With a mindset geared towards solving complex technical problems, I develop scalable solutions that transform business requirements into functional systems, always maintaining a standard of technical excellence and security.",
 
     "about.softwareTitle": "Software Engineering",
     "about.systemsTitle": "Scalable Systems",
     "about.securityTitle": "Security by Design",
     "about.optimizationTitle": "Performance Optimization",
 
-    "about.softwareContent": "Development under industry standards and methodologies",
-    "about.systemsContent": "Infrastructure prepared for growth and high demand",
-    "about.securityContent": "Data and identity protection from the base architecture",
-    "about.optimizationContent": "Efficient code designed for speed and stability",
+    "about.softwareContent":
+      "Development under industry standards and methodologies",
+    "about.systemsContent":
+      "Infrastructure prepared for growth and high demand",
+    "about.securityContent":
+      "Data and identity protection from the base architecture",
+    "about.optimizationContent":
+      "Efficient code designed for speed and stability",
 
     "contact.title": "Get in Touch",
-    "contact.email": "Email",
-    "contact.message": "Message",
+    "contact.name": "Full Name",
+    "contact.email": "Email Address",
+    "contact.message": "Your Message",
     "contact.send": "Send Message",
+    "contact.success": "Message sent successfully!",
+    "contact.error":
+      "There was an error sending your message. Please try again.",
 
     "footer.title": "Let's build the future",
-    "footer.description": "Full Stack Engineering designed between the mountains and the desert",
+    "footer.description":
+      "Full Stack Engineering designed between the mountains and the desert",
     "footer.bottom": `© ${currentYear} José Montaño`,
 
     "common.loading": "Loading...",
@@ -70,7 +80,7 @@ export const ui = {
     "nav.technologies": "Tecnologías",
     "nav.about": "Sobre Mí",
     "nav.contact": "Contacto",
-    "home.intro": 
+    "home.intro":
       "Soy <span class='font-bold text-text-accent'>José Montaño</span>, Ingeniero enfocado en construir el puente entre la potencia del backend y la interactividad del frontend. Experto en diseñar sistemas robustos con <span class='font-bold text-text-accent'>Python</span> y darles vida mediante arquitecturas <span class='font-bold text-text-accent'>React</span>, entregando software de alto rendimiento para cualquier dispositivo.",
 
     "home.title": "Software Engineer & <br> Full Stack Developer",
@@ -93,25 +103,35 @@ export const ui = {
     "about.title": "SOBRE MÍ",
     "about.skills": "Habilidades",
     "about.experience": "Experiencia",
-    "about.description": "Ingeniero de Software enfocado en el diseño y construcción de arquitecturas digitales de alto rendimiento. Mi metodología se basa en la integración de servicios de backend robustos con interfaces de usuario intuitivas y dinámicas. Con una mentalidad orientada a la resolución de problemas técnicos complejos, desarrollo soluciones escalables que transforman requisitos de negocio en sistemas funcionales, manteniendo siempre un estándar de excelencia técnica y seguridad.",
+    "about.description":
+      "Ingeniero de Software enfocado en el diseño y construcción de arquitecturas digitales de alto rendimiento. Mi metodología se basa en la integración de servicios de backend robustos con interfaces de usuario intuitivas y dinámicas. Con una mentalidad orientada a la resolución de problemas técnicos complejos, desarrollo soluciones escalables que transforman requisitos de negocio en sistemas funcionales, manteniendo siempre un estándar de excelencia técnica y seguridad.",
 
     "about.softwareTitle": "Ingeniería de Software",
     "about.systemsTitle": "Sistemas Escalables",
     "about.securityTitle": "Seguridad por Diseño",
     "about.optimizationTitle": "Optimización de Rendimiento",
 
-    "about.softwareContent": "Desarrollo bajo estándares y metodologías de industria",
-    "about.systemsContent": "Infraestructura preparada para el crecimiento y alta demanda",
-    "about.securityContent": "Protección de datos e identidad desde la arquitectura base",
-    "about.optimizationContent": "Código eficiente diseñado para la velocidad y estabilidad",
+    "about.softwareContent":
+      "Desarrollo bajo estándares y metodologías de industria",
+    "about.systemsContent":
+      "Infraestructura preparada para el crecimiento y alta demanda",
+    "about.securityContent":
+      "Protección de datos e identidad desde la arquitectura base",
+    "about.optimizationContent":
+      "Código eficiente diseñado para la velocidad y estabilidad",
 
     "contact.title": "Contáctame",
-    "contact.email": "Correo",
-    "contact.message": "Mensaje",
+    "contact.name": "Nombre Completo",
+    "contact.email": "Correo Electrónico",
+    "contact.message": "Tu Mensaje",
     "contact.send": "Enviar Mensaje",
+    "contact.success": "¡Mensaje enviado con éxito!",
+    "contact.error":
+      "Hubo un error al enviar tu mensaje. Por favor, inténtalo de nuevo.",
 
     "footer.title": "Construyamos el futuro",
-    "footer.description": "Ingeniería Full Stack diseñada entre la sierra y el desierto",
+    "footer.description":
+      "Ingeniería Full Stack diseñada entre la sierra y el desierto",
     "footer.bottom": `© ${currentYear} José Montaño`,
 
     "common.loading": "Cargando...",

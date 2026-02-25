@@ -1,0 +1,19 @@
+---
+import ContactForm from "./ContactForm.astro";
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<section id="contact" class="flex flex-col items-center mb-20 lg:mb-32">
+  <h2
+    class="font-fraunces text-text-primary text-6 lg:text-9 font-bold mb-12 uppercase tracking-wide text-center"
+  >
+    {t("contact.title")}
+  </h2>
+
+  <div class="w-full">
+    <ContactForm />
+  </div>
+</section>

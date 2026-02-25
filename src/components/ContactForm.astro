@@ -1,0 +1,74 @@
+---
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<form
+  name="contact"
+  method="POST"
+  data-netlify="true"
+  action={`/${lang}/?success=true`}
+  class="flex flex-col gap-6 w-full max-w-2xl mx-auto"
+>
+  <input type="hidden" name="form-name" value="contact" />
+
+  <div class="flex flex-col gap-2">
+    <label
+      for="name"
+      class="font-jakarta text-text-secondary text-sm font-semibold uppercase tracking-wider"
+    >
+      {t("contact.name")}
+    </label>
+    <input
+      type="text"
+      name="name"
+      id="name"
+      required
+      placeholder="John Doe"
+      class="bg-white/50 border border-text-accent/20 rounded-xl px-5 py-3 font-jakarta text-text-primary focus:outline-none focus:border-text-accent focus:ring-1 focus:ring-text-accent transition-all duration-300 backdrop-blur-sm"
+    />
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <label
+      for="email"
+      class="font-jakarta text-text-secondary text-sm font-semibold uppercase tracking-wider"
+    >
+      {t("contact.email")}
+    </label>
+    <input
+      type="email"
+      name="email"
+      id="email"
+      required
+      placeholder="john@example.com"
+      class="bg-white/50 border border-text-accent/20 rounded-xl px-5 py-3 font-jakarta text-text-primary focus:outline-none focus:border-text-accent focus:ring-1 focus:ring-text-accent transition-all duration-300 backdrop-blur-sm"
+    />
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <label
+      for="message"
+      class="font-jakarta text-text-secondary text-sm font-semibold uppercase tracking-wider"
+    >
+      {t("contact.message")}
+    </label>
+    <textarea
+      name="message"
+      id="message"
+      rows="5"
+      required
+      placeholder="..."
+      class="bg-white/50 border border-text-accent/20 rounded-xl px-5 py-3 font-jakarta text-text-primary focus:outline-none focus:border-text-accent focus:ring-1 focus:ring-text-accent transition-all duration-300 backdrop-blur-sm resize-none"
+    ></textarea>
+  </div>
+
+  <button
+    type="submit"
+    class="mt-4 bg-buttons text-text-buttons font-jakarta font-bold uppercase tracking-widest py-4 rounded-xl hover:bg-text-accent transition-colors duration-300 shadow-lg shadow-text-accent/10 active:scale-[0.98]"
+  >
+    {t("contact.send")}
+  </button>
+</form>
