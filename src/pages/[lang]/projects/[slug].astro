@@ -140,6 +140,38 @@ function parseBody(body: string): string {
       </div>
     </header>
 
+    <!-- Tech Stack Section -->
+    <section class="tech-stack-section">
+      <div class="tech-stack-header">
+        <h2 class="tech-stack-title">{t("projects.techStack")}</h2>
+        <div class="tech-stack-line"></div>
+      </div>
+
+      <div class="tech-stack-grid">
+        <div class="tech-stack-column">
+          <h3 class="tech-stack-subtitle">{t("projects.mainStack")}</h3>
+          <div class="tech-tags">
+            {technologies.map((tech) => <span class="tech-tag">{tech}</span>)}
+          </div>
+        </div>
+
+        {
+          project.data.libraries && project.data.libraries.length > 0 && (
+            <div class="tech-stack-column">
+              <h3 class="tech-stack-subtitle">
+                {t("projects.toolsLibraries")}
+              </h3>
+              <div class="tech-tags">
+                {project.data.libraries.map((lib) => (
+                  <span class="tech-tag lib-tag">{lib}</span>
+                ))}
+              </div>
+            </div>
+          )
+        }
+      </div>
+    </section>
+
     <!-- Sections -->
     {
       sections && sections.length > 0 && (
@@ -219,12 +251,71 @@ function parseBody(body: string): string {
       )
     }
 
-    <!-- Fallback: raw markdown content -->
     <article class="prose-content">
       <Content />
     </article>
   </main>
+
+  <!-- Image Lightbox Modal -->
+  <div id="image-modal" class="lightbox-modal" aria-hidden="true">
+    <button class="lightbox-close" aria-label="Cerrar">&times;</button>
+    <div class="lightbox-content">
+      <img id="lightbox-img" src="" alt="" />
+    </div>
+  </div>
 </Layout>
+
+<script>
+  function setupLightbox() {
+    const modal = document.getElementById("image-modal");
+    const lightboxImg = document.getElementById(
+      "lightbox-img",
+    ) as HTMLImageElement;
+    const closeBtn = document.querySelector(".lightbox-close");
+    const projectImages = document.querySelectorAll(
+      ".hero-image, .section-img",
+    );
+
+    if (!modal || !lightboxImg || !closeBtn) return;
+
+    projectImages.forEach((img) => {
+      img.addEventListener("click", () => {
+        const src = (img as HTMLImageElement).src;
+        const alt = (img as HTMLImageElement).alt;
+        lightboxImg.src = src;
+        lightboxImg.alt = alt;
+        modal.classList.add("active");
+        document.body.style.overflow = "hidden";
+      });
+    });
+
+    const closeModal = () => {
+      modal.classList.remove("active");
+      document.body.style.overflow = "";
+      setTimeout(() => {
+        lightboxImg.src = "";
+      }, 300);
+    };
+
+    closeBtn.addEventListener("click", closeModal);
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    // Close on Escape key
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && modal.classList.contains("active")) {
+        closeModal();
+      }
+    });
+  }
+
+  // Initial setup
+  setupLightbox();
+
+  // Re-setup on view transitions if using them, though not explicitly mentioned here.
+  document.addEventListener("astro:after-swap", setupLightbox);
+</script>
 
 <style>
   @reference "../../../styles/global.css";
@@ -293,17 +384,18 @@ function parseBody(body: string): string {
   /* ─── Hero Image ─── */
   .hero-image-wrapper {
     width: 100%;
-    aspect-ratio: 16 / 9;
+    max-height: 70vh; /* Prevent vertical images from being too tall */
     overflow: hidden;
     border-radius: 16px;
     margin-bottom: 28px;
     border: 1.5px solid #e2ddd6;
+    background: #fdfcf9;
   }
 
   .hero-image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain; /* Changed from cover */
     display: block;
   }
 
@@ -324,6 +416,68 @@ function parseBody(body: string): string {
     font-weight: 500;
     color: var(--color-text-primary, #3d3d3d);
     letter-spacing: 0.02em;
+  }
+
+  /* ─── Tech Stack Section ─── */
+  .tech-stack-section {
+    margin-bottom: 80px;
+    padding: 40px;
+    background: #fdfcf9;
+    border: 1.5px solid #e2ddd6;
+    border-radius: 20px;
+  }
+
+  .tech-stack-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+
+  .tech-stack-title {
+    font-family: var(--font-fraunces, serif);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--color-text-primary, #3d3d3d);
+    white-space: nowrap;
+  }
+
+  .tech-stack-line {
+    height: 1.5px;
+    background: #e2ddd6;
+    flex-grow: 1;
+  }
+
+  .tech-stack-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+
+  .tech-stack-subtitle {
+    font-family: var(--font-jetbrains, monospace);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-accent, #6b705c);
+    margin-bottom: 18px;
+  }
+
+  .lib-tag {
+    border-color: #d0ccc6;
+    color: var(--color-text-secondary, #626262);
+    background: #ffffff;
+  }
+
+  @media (max-width: 768px) {
+    .tech-stack-grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    .tech-stack-section {
+      padding: 24px;
+    }
   }
 
   /* ─── Links ─── */
@@ -441,11 +595,12 @@ function parseBody(body: string): string {
 
   .section-img {
     width: 100%;
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
+    max-height: 60vh; /* Prevent excessive height for mobile screenshots */
+    object-fit: contain; /* Changed from cover */
     border-radius: 12px;
     display: block;
     border: 1.5px solid #e2ddd6;
+    background: #fdfcf9;
   }
 
   .section-caption {
@@ -483,6 +638,89 @@ function parseBody(body: string): string {
 
     .section-image-block {
       order: -1;
+    }
+  }
+
+  /* ─── Lightbox Modal ─── */
+  .hero-image,
+  .section-img {
+    cursor: zoom-in;
+  }
+
+  .lightbox-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 10, 10, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(8px);
+    padding: 40px;
+  }
+
+  .lightbox-modal.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .lightbox-content {
+    max-width: 90vw;
+    max-height: 85vh;
+    position: relative;
+    transform: scale(0.9);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .lightbox-modal.active .lightbox-content {
+    transform: scale(1);
+  }
+
+  .lightbox-content img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: none;
+    font-size: 32px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+    z-index: 10000;
+  }
+
+  .lightbox-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  @media (max-width: 768px) {
+    .lightbox-modal {
+      padding: 20px;
+    }
+    .lightbox-close {
+      top: 15px;
+      right: 15px;
     }
   }
 

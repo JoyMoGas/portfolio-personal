@@ -2,14 +2,15 @@
 title: "MoGas Weather App"
 description: "Una aplicación de clima moderna y elegante para condiciones en tiempo real y pronóstico de 5 días para cualquier ciudad del mundo. Búsqueda inteligente con autocompletado, consejos personalizados y diseño glassmorphism."
 tagline: "Tu pronóstico, presentado con estilo."
-image: "/projects/weather-app/hero.png"
+image: "/projects/weather-app/main.png"
 technologies:
-  - JavaScript (ES6+)
+  - JavaScript
   - HTML5
   - CSS3
   - Tailwind CSS
+libraries:
+  - OpenWeatherAPI
   - Vite
-  - OpenWeatherMap API
 demo: "https://mogasweather.netlify.app/"
 featured: true
 order: 3
@@ -17,7 +18,7 @@ lang: "es"
 sections:
   - title: "El Clima en Tiempo Real de un Vistazo"
     body: "La app detecta automáticamente tu ubicación al abrirse para mostrar el clima de tu ciudad al instante. Temperatura, sensación térmica, humedad, velocidad del viento y horarios de amanecer/atardecer están en primer plano. Un fondo animado dinámico cambia según las condiciones actuales — sol, nubes, lluvia."
-    image: "/projects/weather-app/main.png"
+    image: "/projects/weather-app/info.png"
     imageAlt: "Vista principal del clima mostrando temperatura actual, ciudad y condiciones"
     imageCaption: "Todo lo que necesitas saber sobre el clima de hoy — en una sola vista."
     layout: "image-right"
@@ -37,6 +38,6 @@ sections:
     layout: "image-right"
 
   - title: "Funcionalidades Clave"
-    body: "- Detección automática de ubicación al iniciar para precargar el clima local\n- Datos en tiempo real vía API de OpenWeatherMap\n- Pronóstico extendido de 5 días con temperaturas máximas y mínimas\n- Búsqueda inteligente con autocompletado e historial reciente\n- Modal de consejos meteorológicos personalizados (bilingüe)\n- Fondo animado que reacciona a las condiciones actuales\n- Interfaz glassmorphism con transiciones suaves\n- Completamente responsiva — móvil y escritorio"
+    body: "- Detección automática de ubicación al iniciar para precargar el clima local\n- Datos en tiempo real vía API de OpenWeatherMap\n- Pronóstico extendido de 5 días con temperaturas máximas y mínimas\n- Búsqueda inteligente con autocompletado e historial reciente\n- Modal de consejos meteorológicos personalizados\n- Interfaz glassmorphism con transiciones suaves\n- Completamente responsiva — móvil y escritorio"
     layout: "text-only"
 ---

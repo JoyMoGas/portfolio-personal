@@ -2,11 +2,12 @@
 title: "Reedo"
 description: "A mobile social app for book lovers — discover new reads, build your personal library, share reviews, and connect with people who love books as much as you do. Currently at the UI/UX design stage in Figma."
 tagline: "Read. Discover. Connect."
-image: "/projects/reedo/hero.png"
+image: "/projects/reedo/hero.svg"
 technologies:
   - Figma
+  - React Native
   - UI/UX Design
-  - React Native (planned)
+libraries: []
 featured: true
 order: 4
 lang: "en"

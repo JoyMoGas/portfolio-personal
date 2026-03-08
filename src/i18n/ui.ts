@@ -29,6 +29,9 @@ export const ui = {
     "projects.viewDetails": "View Details",
     "projects.viewDemo": "Live Demo",
     "projects.viewCode": "View Code",
+    "projects.techStack": "Tech Stack",
+    "projects.mainStack": "Main Tech",
+    "projects.toolsLibraries": "Tools & Libraries",
 
     "arsenal.title": "TECH ARSENAL",
     "arsenal.frontend": "Front-End",
@@ -83,7 +86,7 @@ export const ui = {
     "home.intro":
       "Soy <span class='font-bold text-text-accent'>José Montaño</span>, Ingeniero enfocado en construir el puente entre la potencia del backend y la interactividad del frontend. Experto en diseñar sistemas robustos con <span class='font-bold text-text-accent'>Python</span> y darles vida mediante arquitecturas <span class='font-bold text-text-accent'>React</span>, entregando software de alto rendimiento para cualquier dispositivo.",
 
-    "home.title": "Software Engineer & <br> Full Stack Developer",
+    "home.title": "Ingeniero de Software & <br> Desarrollador Full Stack",
     "home.subtitle": "Desarrollador Full Stack",
     "home.cta": "Ver Proyectos",
     "home.available": "DISPONIBLE PARA TRABAJAR",
@@ -94,6 +97,9 @@ export const ui = {
     "projects.viewDetails": "Ver Detalles",
     "projects.viewDemo": "Demo en Vivo",
     "projects.viewCode": "Ver Código",
+    "projects.techStack": "Stack Tecnológico",
+    "projects.mainStack": "Tecnologías Principales",
+    "projects.toolsLibraries": "Herramientas y Librerías",
 
     "arsenal.title": "ARSENAL TECNOLÓGICO",
     "arsenal.frontend": "Front-End",

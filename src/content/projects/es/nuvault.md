@@ -6,8 +6,9 @@ image: "/projects/nuvault/hero.png"
 technologies:
   - React Native
   - TypeScript
-  - Expo SDK 53
+  - Expo
   - Supabase
+libraries:
   - crypto-js
   - expo-secure-store
   - react-native-reanimated
@@ -38,6 +39,6 @@ sections:
     layout: "image-right"
 
   - title: "Funcionalidades Clave"
-    body: "- Cifrado de extremo a extremo con AES vía crypto-js antes de que cualquier dato salga del dispositivo\n- Sincronización en la nube — vaults cifrados almacenados y sincronizados en tiempo real vía Supabase\n- Categorías — organiza las credenciales por tipo para acceso rápido\n- Búsqueda instantánea — filtra todo tu vault mientras escribes\n- Interfaz adaptiva — respeta completamente el modo claro y oscuro del sistema\n- Flujos de autenticación completos — registro, inicio de sesión, recuperación y restablecimiento de contraseña con verificación por correo"
+    body: "- Cifrado de extremo a extremo con AES vía crypto-js antes de que cualquier dato salga del dispositivo\n- Sincronización en la nube — vaults cifrados almacenados y sincronizados en tiempo real vía Supabase\n- Categorías — organiza las credenciales por tipo para acceso rápido\n- Búsqueda instantánea — filtra todo tu vault mientras escribes\n- Flujos de autenticación completos — registro, inicio de sesión, recuperación y restablecimiento de contraseña con verificación por correo"
     layout: "text-only"
 ---
