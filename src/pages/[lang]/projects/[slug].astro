@@ -61,8 +61,24 @@ function parseBody(body: string): string {
   <Navbar />
   <main class="container">
     <!-- Back button -->
-    <a href={`/${lang}#projects`} class="back-link">
-      ← {t("nav.projects")}
+    <a href={`/${lang}#projects`} class="back-btn">
+      <span class="back-icon">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+      </span>
+      <span class="back-text">{t("projects.backToHome")}</span>
     </a>
 
     <!-- Project header -->
@@ -327,18 +343,39 @@ function parseBody(body: string): string {
   }
 
   /* ─── Back link ─── */
-  .back-link {
-    display: inline-block;
-    margin-bottom: 32px;
-    font-family: var(--font-jakarta, sans-serif);
-    font-size: 13px;
-    color: var(--color-text-secondary, #626262);
-    text-decoration: none;
-    transition: color 0.2s ease;
-    letter-spacing: 0.01em;
-  }
-  .back-link:hover {
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 40px;
+    padding: 10px 20px 10px 16px;
+    border-radius: 999px;
+    background: var(--color-secondary, #ffffff);
     color: var(--color-text-primary, #3d3d3d);
+    font-family: var(--font-jetbrains, monospace);
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    border: 1.5px solid #e2ddd6;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .back-btn:hover {
+    border-color: var(--color-text-primary, #3d3d3d);
+    transform: translateX(-4px);
+    box-shadow: 4px 4px 0px 0px rgba(61, 61, 61, 0.15);
+  }
+
+  .back-icon {
+    display: flex;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .back-btn:hover .back-icon {
+    transform: translateX(-4px);
   }
 
   /* ─── Project Header ─── */

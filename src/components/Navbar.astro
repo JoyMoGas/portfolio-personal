@@ -187,7 +187,6 @@ const currentLangLabel = languages[lang as keyof typeof languages];
   id="mobile-menu"
   class="fixed inset-0 z-40 flex flex-col bg-primary opacity-0 pointer-events-none transition-opacity duration-300 md:hidden"
 >
-
   <ul class="flex flex-col items-center justify-center flex-1 gap-8">
     <li>
       <a
@@ -274,9 +273,47 @@ const currentLangLabel = languages[lang as keyof typeof languages];
   }
 
   btn.addEventListener("click", () => (menuOpen ? closeMenu() : openMenu()));
-  document
-    .querySelectorAll(".mobile-link")
-    .forEach((l) => l.addEventListener("click", closeMenu));
+
+  // ── Smooth scroll without URL hash ────────────────────────────
+  document.querySelectorAll('a[href*="#"]').forEach((link) => {
+    link.addEventListener("click", function (e) {
+      const currentTarget = e.currentTarget as HTMLAnchorElement;
+      const href = currentTarget.getAttribute("href");
+      if (!href) return;
+
+      const hashIndex = href.indexOf("#");
+      if (hashIndex === -1) return;
+
+      const targetPath = href.substring(0, hashIndex);
+      const hash = href.substring(hashIndex);
+
+      // Check if the link is pointing to the current page
+      const currentPath = window.location.pathname.replace(/\/$/, "") || "/";
+      const normalizedTargetPath = targetPath.replace(/\/$/, "") || "/";
+
+      if (
+        currentPath === normalizedTargetPath ||
+        currentPath + "/" === normalizedTargetPath ||
+        currentPath === normalizedTargetPath + "/"
+      ) {
+        // We are on the same page, scroll smoothly
+        const targetElement = document.querySelector(hash);
+
+        if (targetElement) {
+          e.preventDefault();
+          targetElement.scrollIntoView({ behavior: "smooth" });
+
+          // If it's a mobile link, close the menu
+          if (
+            currentTarget.classList.contains("mobile-link") &&
+            typeof closeMenu === "function"
+          ) {
+            closeMenu();
+          }
+        }
+      }
+    });
+  });
 
   // ── Language dropdown ───────────────────────────────────────
   const dropBtn = document.getElementById("lang-dropdown-btn")!;
